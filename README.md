@@ -3,6 +3,14 @@
 Android app that helps people quit porn by blocking the words and sites they use when the urge hits.
 Working title, may change.
 
+## v0.4
+
+- Privacy Policy and Terms of Use: in the app under Settings > Legal (works offline), and as web pages
+  in `docs/` for store listings. Text lives in `tools/legal_content.py`; run
+  `python3 tools/make_legal.py .` to regenerate the Kotlin file and the HTML pages.
+- To host the pages: GitHub repo > Settings > Pages > deploy from branch `main`, folder `/docs`.
+  Links then are `https://w7011997-cmd.github.io/Soapy/privacy.html` and `.../terms.html`.
+
 ## v0.3
 
 - Splash shows "By" with "Peter Wisdom K." typing itself out at the bottom

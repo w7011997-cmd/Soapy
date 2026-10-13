@@ -22,7 +22,7 @@ import com.soapy.app.data.SoapyDatabase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-private enum class Screen { HOME, SETTINGS, LOCK_SETUP, LOCK_CHANGE, LOCK_DISABLE }
+private enum class Screen { HOME, SETTINGS, LOCK_SETUP, LOCK_CHANGE, LOCK_DISABLE, PRIVACY, TERMS }
 
 /**
  * Splash first, then the lock screen (if a lock is set), then the app.
@@ -113,7 +113,23 @@ private fun AppNavigation(
             onChangePin = { screen = Screen.LOCK_CHANGE },
             onDisableLock = { screen = Screen.LOCK_DISABLE },
             onEnableAdmin = onEnableAdmin,
-            onEnableProtection = onEnableProtection
+            onEnableProtection = onEnableProtection,
+            onOpenPrivacy = { screen = Screen.PRIVACY },
+            onOpenTerms = { screen = Screen.TERMS }
+        )
+
+        Screen.PRIVACY -> LegalScreen(
+            title = "Privacy Policy",
+            intro = LegalContent.PRIVACY_INTRO,
+            sections = LegalContent.privacy,
+            onBack = { screen = Screen.SETTINGS }
+        )
+
+        Screen.TERMS -> LegalScreen(
+            title = "Terms of Use",
+            intro = LegalContent.TERMS_INTRO,
+            sections = LegalContent.terms,
+            onBack = { screen = Screen.SETTINGS }
         )
 
         Screen.LOCK_SETUP -> LockFlowScreen(

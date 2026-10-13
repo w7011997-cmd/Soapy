@@ -1,6 +1,7 @@
 package com.soapy.app.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -41,7 +43,9 @@ fun SettingsScreen(
     onChangePin: () -> Unit,
     onDisableLock: () -> Unit,
     onEnableAdmin: () -> Unit,
-    onEnableProtection: () -> Unit
+    onEnableProtection: () -> Unit,
+    onOpenPrivacy: () -> Unit,
+    onOpenTerms: () -> Unit
 ) {
     val context = LocalContext.current
     val version = remember {
@@ -126,6 +130,14 @@ fun SettingsScreen(
             }
         }
 
+        item {
+            SettingsSection("Legal") {
+                LegalRow(text = "Privacy Policy", onClick = onOpenPrivacy)
+                HorizontalDivider(color = SoapyColors.Outline)
+                LegalRow(text = "Terms of Use", onClick = onOpenTerms)
+            }
+        }
+
         item { MoreAppsSection() }
 
         item { Spacer(Modifier.height(16.dp)) }
@@ -145,6 +157,20 @@ private fun SettingsSection(title: String, content: @Composable ColumnScope.() -
             Spacer(Modifier.height(8.dp))
             content()
         }
+    }
+}
+
+@Composable
+private fun LegalRow(text: String, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text, fontSize = 15.sp, modifier = Modifier.weight(1f))
+        Text("›", fontSize = 22.sp, color = SoapyColors.Lavender)
     }
 }
 
