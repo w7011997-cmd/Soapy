@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
-    android:accessibilityEventTypes="typeViewTextChanged|typeWindowContentChanged"
+    android:accessibilityEventTypes="typeViewTextChanged|typeWindowContentChanged|typeWindowStateChanged"
     android:accessibilityFeedbackType="feedbackGeneric"
     android:accessibilityFlags="flagDefault"
     android:canRetrieveWindowContent="true"
     android:description="@string/accessibility_description"
     android:notificationTimeout="150"
-    android:packageNames="com.android.chrome,com.chrome.beta,org.mozilla.firefox,org.mozilla.firefox_beta,org.mozilla.fenix,com.sec.android.app.sbrowser,com.opera.browser,com.opera.mini.native,com.opera.gx,com.brave.browser,com.microsoft.emmx,com.duckduckgo.mobile.android,com.UCMobile.intl,com.mi.globalbrowser,com.android.browser,com.transsion.phoenix,com.kiwibrowser.browser,com.google.android.googlequicksearchbox" />
+    android:packageNames="com.android.chrome,com.chrome.beta,org.mozilla.firefox,org.mozilla.firefox_beta,org.mozilla.fenix,com.sec.android.app.sbrowser,com.opera.browser,com.opera.mini.native,com.opera.gx,com.brave.browser,com.microsoft.emmx,com.duckduckgo.mobile.android,com.UCMobile.intl,com.mi.globalbrowser,com.android.browser,com.transsion.phoenix,com.kiwibrowser.browser,com.google.android.googlequicksearchbox,com.google.android.packageinstaller,com.android.packageinstaller,com.samsung.android.packageinstaller,com.miui.packageinstaller,com.android.settings,com.android.vending,com.miui.securitycenter" />

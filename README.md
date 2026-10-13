@@ -3,15 +3,24 @@
 Android app that helps people quit porn by blocking the words and sites they use when the urge hits.
 Working title, may change.
 
-## v0.1 (this version)
+## v0.2
 
-- Add and remove blocked words (stored on the device with Room, nothing uploaded)
-- Accessibility service watches browser address and search bars
-- On a match: sends the user to the home screen and shows a rotating message
-- Bundled starter messages in English and Pidgin (works offline)
+- Dark purple theme, splash screen and app icon
+- Home screen: protection status, add a word or website, your blocklist
+- Words and sites are permanent: once added they cannot be removed (the app asks first)
+- Settings page (gear icon, top right)
+  - App lock: 4-digit PIN, always with a security question for PIN recovery
+  - Uninstall protection: device admin
+- Uninstall question: when an uninstall or device-admin deactivate screen for Soapy opens, Soapy
+  asks "are you uninstalling me because you want to return to the habit, or because you have quit?"
+- Everything runs on the device, so it works offline
 
-Not yet built: VPN site blocker, 24-hour removal cooldown, uninstall protection, streak,
-urge button, Supabase sync and admin panel.
+Not yet built: VPN site blocker, streak, urge button, Supabase sync and admin panel.
+
+## v0.1
+
+- Accessibility service watches browser address and search bars, sends the user home on a match
+  and shows a rotating English or Pidgin message
 
 ## Build
 
@@ -23,12 +32,15 @@ Download the APK from the run's **Artifacts** section (`soapy-debug-apk`).
 - Android 13 and newer block accessibility for APKs installed outside the Play Store.
   If the Soapy toggle is greyed out: Settings > Apps > Soapy > three-dot menu >
   **Allow restricted settings**, then turn on the service again.
-- Open Soapy, add a word, tap **Turn on**, and enable **Soapy** under Accessibility.
+- Open Soapy, tap **Turn on** under Protection, and enable **Soapy** under Accessibility.
+- Turn on **Uninstall protection** to make Soapy harder to remove.
 
 ## Project layout
 
-- `app/src/main/java/com/soapy/app/MainActivity.kt` blocklist screen
-- `app/src/main/java/com/soapy/app/SoapyAccessibilityService.kt` detection and message overlay
-- `app/src/main/java/com/soapy/app/MessageRotator.kt` bundled messages
-- `app/src/main/java/com/soapy/app/data/Database.kt` Room database
-- `app/src/main/res/xml/accessibility_service_config.xml` which browsers are watched
+- `MainActivity.kt` splash, lock gate and navigation host
+- `SoapyAccessibilityService.kt` word detection, message overlay, uninstall question
+- `SoapyDeviceAdminReceiver.kt` device admin (shows the question when deactivating)
+- `MessageRotator.kt` bundled messages
+- `data/` Room database, PIN and security answer storage (hashed), word and site parser
+- `ui/` Compose screens: home, settings, lock, splash, theme
+- `res/xml/accessibility_service_config.xml` which apps the service watches

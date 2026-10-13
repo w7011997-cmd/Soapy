@@ -3,4 +3,12 @@
     <string name="app_name">Soapy</string>
     <string name="accessibility_description">Soapy reads the text in browser address and search bars on this device and compares it with the words you chose to block. Nothing leaves your phone.</string>
     <string name="overlay_dismiss">I\'m going back</string>
+
+    <string name="uninstall_title">Wait a moment</string>
+    <string name="uninstall_question">Are you uninstalling me just because you want to return to the habit, or because you have quit the habit and no longer need me?</string>
+    <string name="uninstall_answer_habit">I want to return to the habit</string>
+    <string name="uninstall_answer_quit">I\'ve quit and no longer need Soapy</string>
+
+    <string name="device_admin_label">Soapy</string>
+    <string name="device_admin_description">Helps keep Soapy protecting you in weak moments.</string>
 </resources>

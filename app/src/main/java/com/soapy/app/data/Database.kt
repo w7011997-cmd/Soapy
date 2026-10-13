@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Database
-import androidx.room.Delete
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.Insert
@@ -15,7 +14,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.flow.Flow
 
-/** A word the user wants blocked. Stored on the device only, never uploaded. */
+/**
+ * A word or website the user wants blocked. Stored on the device only, never uploaded.
+ * Entries are permanent: the DAO has no delete on purpose.
+ */
 @Entity(
     tableName = "blocked_keywords",
     indices = [Index(value = ["term"], unique = true)]
@@ -33,9 +35,6 @@ interface BlockedKeywordDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(item: BlockedKeyword): Long
-
-    @Delete
-    suspend fun delete(item: BlockedKeyword)
 }
 
 @Database(entities = [BlockedKeyword::class], version = 1, exportSchema = false)

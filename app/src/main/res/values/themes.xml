@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Soapy" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!-- Main app theme: always dark, black background like the other apps -->
+    <style name="Theme.Soapy" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/soapy_background</item>
+        <item name="android:statusBarColor">@color/soapy_background</item>
+        <item name="android:navigationBarColor">@color/soapy_background</item>
+    </style>
+
+    <!-- Splash shown while the app starts, then switches to Theme.Soapy -->
+    <style name="Theme.Soapy.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/soapy_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.Soapy</item>
+    </style>
+
 </resources>
