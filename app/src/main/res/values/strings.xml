@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Soapy</string>
+    <string name="accessibility_description">Soapy reads the text in browser address and search bars on this device and compares it with the words you chose to block. Nothing leaves your phone.</string>
+    <string name="overlay_dismiss">I\'m going back</string>
+</resources>
