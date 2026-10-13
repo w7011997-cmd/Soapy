@@ -3,6 +3,12 @@
 Android app that helps people quit porn by blocking the words and sites they use when the urge hits.
 Working title, may change.
 
+## v0.3
+
+- Splash shows "By" with "Peter Wisdom K." typing itself out at the bottom
+- Settings page ends with a note from Wisdom and links to Discovr, Chatify and Resellr
+  (APKPure pages, `apkpure.com/p/<package>`; not published there yet)
+
 ## v0.2
 
 - Dark purple theme, splash screen and app icon

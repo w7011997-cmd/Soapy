@@ -41,7 +41,7 @@ fun SoapyRoot(
 ) {
     var splashDone by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
-        delay(1400)
+        delay(2400)
         splashDone = true
     }
 

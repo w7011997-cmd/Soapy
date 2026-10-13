@@ -126,6 +126,8 @@ fun SettingsScreen(
             }
         }
 
+        item { MoreAppsSection() }
+
         item { Spacer(Modifier.height(16.dp)) }
     }
 }
