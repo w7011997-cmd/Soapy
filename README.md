@@ -3,6 +3,18 @@
 Android app that helps people quit porn by blocking the words and sites they use when the urge hits.
 Working title, may change.
 
+## v0.5
+
+- Progress tracking: streak card on Home, Progress screen (longest streak, days since start,
+  urges stopped total / 7 days / today, milestones 1 to 365 days)
+- "I slipped" button resets the streak (self-reported; history is permanent)
+- One-time start screen: begin today or enter days already clean (0 to 365)
+- Blocks are counted by time only, de-duplicated within 2 minutes (no word, site or search text)
+- Database moves to version 2 with a migration, so existing blocklists are kept
+- Privacy Policy and Terms updated for the above
+
+Next (v0.6): urge button with countdown, charts, risky hours.
+
 ## v0.4
 
 - Privacy Policy and Terms of Use: in the app under Settings > Legal (works offline), and as web pages

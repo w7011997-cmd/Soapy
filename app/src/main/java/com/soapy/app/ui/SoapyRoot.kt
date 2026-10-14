@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -18,11 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.soapy.app.data.BlockedKeyword
 import com.soapy.app.data.LockStore
+import com.soapy.app.data.ProgressMath
+import com.soapy.app.data.ProgressStore
+import com.soapy.app.data.Slip
 import com.soapy.app.data.SoapyDatabase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-private enum class Screen { HOME, SETTINGS, LOCK_SETUP, LOCK_CHANGE, LOCK_DISABLE, PRIVACY, TERMS }
+private enum class Screen { HOME, SETTINGS, LOCK_SETUP, LOCK_CHANGE, LOCK_DISABLE, PRIVACY, TERMS, PROGRESS, SETUP }
 
 /**
  * Splash first, then the lock screen (if a lock is set), then the app.
@@ -85,10 +89,32 @@ private fun AppNavigation(
     val dao = remember { SoapyDatabase.get(context).keywordDao() }
     val keywords by dao.observeAll().collectAsState(initial = emptyList())
     val scope = rememberCoroutineScope()
-    var screen by remember { mutableStateOf(Screen.HOME) }
 
-    BackHandler(enabled = screen != Screen.HOME) {
-        screen = if (screen == Screen.SETTINGS) Screen.HOME else Screen.SETTINGS
+    val progressStore = remember { ProgressStore.get(context) }
+    val progressDao = remember { SoapyDatabase.get(context).progressDao() }
+    var startAt by remember { mutableLongStateOf(progressStore.startAt()) }
+    var screen by remember {
+        mutableStateOf(if (progressStore.isSetupDone()) Screen.HOME else Screen.SETUP)
+    }
+
+    val now = rememberNow()
+    val today = ProgressMath.startOfDay(now)
+    val weekStart = ProgressMath.startOfDay(now, daysBack = 6)
+    val slips by progressDao.observeSlips().collectAsState(initial = emptyList())
+    val blocksTotal by progressDao.observeBlockCount().collectAsState(initial = 0)
+    val blocksToday by remember(today) { progressDao.observeBlocksSince(today) }
+        .collectAsState(initial = 0)
+    val blocksWeek by remember(weekStart) { progressDao.observeBlocksSince(weekStart) }
+        .collectAsState(initial = 0)
+    val stats = remember(startAt, slips, now) {
+        ProgressMath.compute(if (startAt == 0L) now else startAt, slips, now)
+    }
+
+    BackHandler(enabled = screen != Screen.HOME && screen != Screen.SETUP) {
+        screen = when (screen) {
+            Screen.SETTINGS, Screen.PROGRESS -> Screen.HOME
+            else -> Screen.SETTINGS
+        }
     }
 
     when (screen) {
@@ -96,6 +122,9 @@ private fun AppNavigation(
             keywords = keywords,
             protectionOn = protectionOn,
             adminOn = adminOn,
+            stats = stats,
+            blocksWeek = blocksWeek,
+            onOpenProgress = { screen = Screen.PROGRESS },
             onOpenSettings = { screen = Screen.SETTINGS },
             onEnableProtection = onEnableProtection,
             onEnableAdmin = onEnableAdmin,
@@ -116,6 +145,25 @@ private fun AppNavigation(
             onEnableProtection = onEnableProtection,
             onOpenPrivacy = { screen = Screen.PRIVACY },
             onOpenTerms = { screen = Screen.TERMS }
+        )
+
+        Screen.PROGRESS -> ProgressScreen(
+            stats = stats,
+            blocksTotal = blocksTotal,
+            blocksToday = blocksToday,
+            blocksWeek = blocksWeek,
+            onBack = { screen = Screen.HOME },
+            onSlip = {
+                scope.launch { progressDao.insertSlip(Slip(happenedAt = System.currentTimeMillis())) }
+            }
+        )
+
+        Screen.SETUP -> ProgressSetupScreen(
+            onStart = { days ->
+                progressStore.begin(days)
+                startAt = progressStore.startAt()
+                screen = Screen.HOME
+            }
         )
 
         Screen.PRIVACY -> LegalScreen(

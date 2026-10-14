@@ -1,7 +1,7 @@
 # Single source for the Privacy Policy and Terms of Use. make_legal.py turns this into
 # the in-app Kotlin file and the hosted HTML pages. Lines starting with "• " are bullets.
 
-UPDATED = "October 13, 2026"
+UPDATED = "October 14, 2026"
 DEVELOPER = "Peter Wisdom K."
 CONTACT = "[add contact email]"
 
@@ -26,20 +26,22 @@ PRIVACY = [
     "• Your blocklist: every word and website you add, and the date you added it.",
     "• Your app lock, if you turn it on: a scrambled (salted, one-way hashed) version of your 4-digit PIN. The PIN itself is never stored.",
     "• Your security question and answer, if you set a lock. The question is stored as text so Soapy can show it to you. The answer is stored only as a salted, one-way hash.",
+    "• Your progress: the date your streak started (including any days you told Soapy you had already been clean), and the time of each \"I slipped\" tap.",
+    "• The time of each blocked attempt, used only to count your urges stopped. Soapy saves the time and nothing else: not the word, not the site, not what you searched.",
     "• Simple settings, such as whether the lock is on.",
     "Soapy does not ask for your name, email address, phone number, location, contacts, photos, microphone, camera, files or any account.",
 ]),
 ("3. Information Soapy does not collect", [
     "• No personal identifiers, device identifiers or advertising IDs.",
     "• No analytics, crash reporting or tracking tools.",
-    "• No browsing history. Soapy does not keep a record of what you searched, which sites you visited, or when a block happened.",
+    "• No browsing history. Soapy does not keep what you searched, which sites you visited, or which word or site caused a block.",
     "• No usage statistics sent anywhere.",
 ]),
 ("4. The Accessibility Service", [
     "To block a search or site, Soapy uses Android's Accessibility Service. You turn it on yourself in Android settings, and you can turn it off there at any time.",
     "What it looks at: while you use a supported web browser, Soapy reads the text in the address bar and search box. It compares that text, on your phone, against your blocklist. It also watches the Android Settings, app-installer and Play Store screens, only to notice when you open the uninstall or deactivate screen for Soapy.",
     "What it does: when a blocked word or site matches, Soapy sends you to the home screen and shows a message on top. When you open Soapy's uninstall screen, it shows the uninstall question.",
-    "What it does not do: it does not store the text it reads, does not log it, does not send it anywhere, and does not read passwords, messages, or any other app. The text is checked in memory and then discarded.",
+    "What it does not do: it does not store the text it reads, does not log it, does not send it anywhere (the only thing saved when it blocks something is the time, to count your urges stopped), and does not read passwords, messages, or any other app. The text is checked in memory and then discarded.",
     "Soapy uses this service only for these purposes. It is not used for advertising, analytics, profiling or any other reason.",
 ]),
 ("5. Device Administrator", [
@@ -62,7 +64,7 @@ PRIVACY = [
 ]),
 ("10. How long we keep information, and deleting it", [
     "Your data stays on your phone until you remove it. Because the blocklist is meant to be permanent, Soapy has no button to delete individual words or sites.",
-    "You can erase everything Soapy holds by clearing Soapy's storage in Android (Settings > Apps > Soapy > Storage > Clear data) or by uninstalling Soapy. If Uninstall protection is on, deactivate it in Android settings first. Erasing the data also erases your blocklist and your lock.",
+    "You can erase everything Soapy holds by clearing Soapy's storage in Android (Settings > Apps > Soapy > Storage > Clear data) or by uninstalling Soapy. If Uninstall protection is on, deactivate it in Android settings first. Erasing the data also erases your blocklist, your lock and your progress history. Individual progress entries cannot be edited or deleted inside the app.",
     "Soapy turns off Android's automatic app backup, so your data is not copied to cloud backups.",
 ]),
 ("11. Security", [
@@ -97,6 +99,7 @@ TERMS_INTRO = (
 TERMS = [
 ("The short version", [
     "• Soapy is a self-help tool. It is not medical treatment or therapy.",
+    "• Your streak depends on your honesty. Soapy cannot see what you do outside supported browsers.",
     "• Words and websites you add are permanent. Think before you add.",
     "• You are responsible for your PIN and your security answer.",
     "• Use Soapy on your own phone. Do not install it on someone else's phone without their knowledge and consent.",
@@ -109,7 +112,7 @@ TERMS = [
     "You must be at least 18 years old, or the age of majority where you live, to use Soapy. You must own the device or be allowed to manage it.",
 ]),
 ("3. What Soapy is, and what it is not", [
-    "Soapy helps you block words and websites you choose, and shows you messages when a block happens. That is all.",
+    "Soapy helps you block words and websites you choose, and shows you messages when a block happens, and keeps a streak and a count of urges stopped for you.",
     "• Soapy is not a medical device, therapy, counselling or treatment, and nothing in the app is professional advice.",
     "• We make no promise that Soapy will stop you from viewing any content, or that you will quit any habit. It can be bypassed, for example by turning off its permissions, using another device, or using words you did not add.",
     "• If you are struggling, please talk to a doctor, counsellor or someone you trust. If you feel in danger or in crisis, contact local emergency services.",
@@ -124,6 +127,13 @@ TERMS = [
     "• Short or common words may also block harmless content that contains them, and a website entry blocks the whole site.",
     "• The only way to clear the list is to erase Soapy's data or uninstall the app, which removes everything.",
     "You are responsible for what you add. We cannot reverse an entry for you.",
+]),
+("6. Streaks and progress", [
+    "Soapy shows a streak, milestones and a count of urges stopped. These are for your own motivation.",
+    "• The streak is self-reported. It counts up from the date you start, or from the last time you tapped \"I slipped\". Soapy cannot detect a slip, so it is only as accurate as you are.",
+    "• Urges stopped counts the blocks Soapy caught in supported browsers. It is approximate. It does not count what Soapy could not see, and repeated hits within about two minutes count once.",
+    "• Progress history cannot be edited or deleted inside the app. Erasing Soapy's data clears it.",
+    "• The numbers are not proof of anything, are not medical information, and we make no promise about any milestone.",
 ]),
 ("6. App lock, PIN and recovery", [
     "You may set a 4-digit PIN and a security question. You are responsible for keeping them safe and for choosing an answer others cannot guess.",
@@ -181,3 +191,18 @@ TERMS = [
     "Questions about these Terms? Contact Peter Wisdom K. at " + CONTACT + ".",
 ]),
 ]
+
+
+import re as _re
+def _renumber(secs):
+    n = 0
+    out = []
+    for h, b in secs:
+        if _re.match(r"^\d+\. ", h):
+            n += 1
+            h = f"{n}. " + _re.sub(r"^\d+\. ", "", h)
+        out.append((h, b))
+    return out
+
+PRIVACY = _renumber(PRIVACY)
+TERMS = _renumber(TERMS)

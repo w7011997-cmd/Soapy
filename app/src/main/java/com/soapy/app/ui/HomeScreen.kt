@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import com.soapy.app.R
 import com.soapy.app.data.BlockedKeyword
 import com.soapy.app.data.ParsedTerm
+import com.soapy.app.data.ProgressStats
 import com.soapy.app.data.TermParser
 
 @Composable
@@ -54,6 +55,9 @@ fun HomeScreen(
     keywords: List<BlockedKeyword>,
     protectionOn: Boolean,
     adminOn: Boolean,
+    stats: ProgressStats,
+    blocksWeek: Int,
+    onOpenProgress: () -> Unit,
     onOpenSettings: () -> Unit,
     onEnableProtection: () -> Unit,
     onEnableAdmin: () -> Unit,
@@ -108,7 +112,9 @@ fun HomeScreen(
                     "Soapy uses Android's Accessibility Service to read the text in browser " +
                         "address and search bars on this phone, and to notice uninstall screens. " +
                         "It only compares that text with the words you chose to block. " +
-                        "Nothing is sent anywhere or saved. If you do not agree, do not turn it on."
+                        "Nothing is sent anywhere. The only thing Soapy saves about a block is the " +
+                        "time it happened, to count your urges stopped. If you do not agree, " +
+                        "do not turn it on."
                 )
             },
             confirmButton = {
@@ -154,6 +160,8 @@ fun HomeScreen(
                 }
             }
         }
+
+        item { StreakCard(stats = stats, blocksWeek = blocksWeek, onClick = onOpenProgress) }
 
         item {
             SoapyCard(container = SoapyColors.Card) {

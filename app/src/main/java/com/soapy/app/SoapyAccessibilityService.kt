@@ -19,6 +19,7 @@ import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.soapy.app.data.BlockEvent
 import com.soapy.app.data.SoapyDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -44,6 +45,7 @@ class SoapyAccessibilityService : AccessibilityService() {
     private var keywords: List<String> = emptyList()
     private var overlay: View? = null
     private var lastTriggerAt = 0L
+    private var lastLoggedAt = 0L
     private var lastGuardCheckAt = 0L
     private var guardQuietUntil = 0L
 
@@ -87,8 +89,22 @@ class SoapyAccessibilityService : AccessibilityService() {
         if (!containsBlocked(event, list)) return
 
         lastTriggerAt = now
+        logBlock()
         performGlobalAction(GLOBAL_ACTION_HOME)
         showMessageOverlay()
+    }
+
+    /**
+     * Counts an urge stopped. Saves only the time, never the word, site or search text.
+     * Repeated hits within two minutes count once.
+     */
+    private fun logBlock() {
+        val wall = System.currentTimeMillis()
+        if (wall - lastLoggedAt < LOG_DEDUP_MS) return
+        lastLoggedAt = wall
+        scope.launch {
+            SoapyDatabase.get(applicationContext).progressDao().insertBlock(BlockEvent(happenedAt = wall))
+        }
     }
 
     private fun containsBlocked(event: AccessibilityEvent, list: List<String>): Boolean {
@@ -291,6 +307,7 @@ class SoapyAccessibilityService : AccessibilityService() {
 
     companion object {
         private const val TRIGGER_COOLDOWN_MS = 1500L
+        private const val LOG_DEDUP_MS = 120_000L
         private const val AUTO_DISMISS_MS = 20_000L
         private const val GUARD_DISMISS_MS = 120_000L
         private const val GUARD_QUIET_MS = 90_000L

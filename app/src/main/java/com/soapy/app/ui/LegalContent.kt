@@ -5,7 +5,7 @@ package com.soapy.app.ui
 class LegalSection(val heading: String, val body: List<String>)
 
 object LegalContent {
-    const val UPDATED = "October 13, 2026"
+    const val UPDATED = "October 14, 2026"
     const val PRIVACY_INTRO = "Soapy helps you stay away from porn by blocking the words and websites you choose. That list is deeply personal, so Soapy is built to keep it on your phone and nowhere else."
     const val TERMS_INTRO = "These terms are a plain agreement between you and the Developer about using Soapy. Please read them. By installing or using Soapy, you accept them."
 
@@ -33,6 +33,8 @@ object LegalContent {
                 "• Your blocklist: every word and website you add, and the date you added it.",
                 "• Your app lock, if you turn it on: a scrambled (salted, one-way hashed) version of your 4-digit PIN. The PIN itself is never stored.",
                 "• Your security question and answer, if you set a lock. The question is stored as text so Soapy can show it to you. The answer is stored only as a salted, one-way hash.",
+                "• Your progress: the date your streak started (including any days you told Soapy you had already been clean), and the time of each \"I slipped\" tap.",
+                "• The time of each blocked attempt, used only to count your urges stopped. Soapy saves the time and nothing else: not the word, not the site, not what you searched.",
                 "• Simple settings, such as whether the lock is on.",
                 "Soapy does not ask for your name, email address, phone number, location, contacts, photos, microphone, camera, files or any account."
             )
@@ -42,7 +44,7 @@ object LegalContent {
             listOf(
                 "• No personal identifiers, device identifiers or advertising IDs.",
                 "• No analytics, crash reporting or tracking tools.",
-                "• No browsing history. Soapy does not keep a record of what you searched, which sites you visited, or when a block happened.",
+                "• No browsing history. Soapy does not keep what you searched, which sites you visited, or which word or site caused a block.",
                 "• No usage statistics sent anywhere."
             )
         ),
@@ -52,7 +54,7 @@ object LegalContent {
                 "To block a search or site, Soapy uses Android's Accessibility Service. You turn it on yourself in Android settings, and you can turn it off there at any time.",
                 "What it looks at: while you use a supported web browser, Soapy reads the text in the address bar and search box. It compares that text, on your phone, against your blocklist. It also watches the Android Settings, app-installer and Play Store screens, only to notice when you open the uninstall or deactivate screen for Soapy.",
                 "What it does: when a blocked word or site matches, Soapy sends you to the home screen and shows a message on top. When you open Soapy's uninstall screen, it shows the uninstall question.",
-                "What it does not do: it does not store the text it reads, does not log it, does not send it anywhere, and does not read passwords, messages, or any other app. The text is checked in memory and then discarded.",
+                "What it does not do: it does not store the text it reads, does not log it, does not send it anywhere (the only thing saved when it blocks something is the time, to count your urges stopped), and does not read passwords, messages, or any other app. The text is checked in memory and then discarded.",
                 "Soapy uses this service only for these purposes. It is not used for advertising, analytics, profiling or any other reason."
             )
         ),
@@ -93,7 +95,7 @@ object LegalContent {
             "10. How long we keep information, and deleting it",
             listOf(
                 "Your data stays on your phone until you remove it. Because the blocklist is meant to be permanent, Soapy has no button to delete individual words or sites.",
-                "You can erase everything Soapy holds by clearing Soapy's storage in Android (Settings > Apps > Soapy > Storage > Clear data) or by uninstalling Soapy. If Uninstall protection is on, deactivate it in Android settings first. Erasing the data also erases your blocklist and your lock.",
+                "You can erase everything Soapy holds by clearing Soapy's storage in Android (Settings > Apps > Soapy > Storage > Clear data) or by uninstalling Soapy. If Uninstall protection is on, deactivate it in Android settings first. Erasing the data also erases your blocklist, your lock and your progress history. Individual progress entries cannot be edited or deleted inside the app.",
                 "Soapy turns off Android's automatic app backup, so your data is not copied to cloud backups."
             )
         ),
@@ -144,6 +146,7 @@ object LegalContent {
             "The short version",
             listOf(
                 "• Soapy is a self-help tool. It is not medical treatment or therapy.",
+                "• Your streak depends on your honesty. Soapy cannot see what you do outside supported browsers.",
                 "• Words and websites you add are permanent. Think before you add.",
                 "• You are responsible for your PIN and your security answer.",
                 "• Use Soapy on your own phone. Do not install it on someone else's phone without their knowledge and consent.",
@@ -165,7 +168,7 @@ object LegalContent {
         LegalSection(
             "3. What Soapy is, and what it is not",
             listOf(
-                "Soapy helps you block words and websites you choose, and shows you messages when a block happens. That is all.",
+                "Soapy helps you block words and websites you choose, and shows you messages when a block happens, and keeps a streak and a count of urges stopped for you.",
                 "• Soapy is not a medical device, therapy, counselling or treatment, and nothing in the app is professional advice.",
                 "• We make no promise that Soapy will stop you from viewing any content, or that you will quit any habit. It can be bypassed, for example by turning off its permissions, using another device, or using words you did not add.",
                 "• If you are struggling, please talk to a doctor, counsellor or someone you trust. If you feel in danger or in crisis, contact local emergency services."
@@ -189,14 +192,24 @@ object LegalContent {
             )
         ),
         LegalSection(
-            "6. App lock, PIN and recovery",
+            "6. Streaks and progress",
+            listOf(
+                "Soapy shows a streak, milestones and a count of urges stopped. These are for your own motivation.",
+                "• The streak is self-reported. It counts up from the date you start, or from the last time you tapped \"I slipped\". Soapy cannot detect a slip, so it is only as accurate as you are.",
+                "• Urges stopped counts the blocks Soapy caught in supported browsers. It is approximate. It does not count what Soapy could not see, and repeated hits within about two minutes count once.",
+                "• Progress history cannot be edited or deleted inside the app. Erasing Soapy's data clears it.",
+                "• The numbers are not proof of anything, are not medical information, and we make no promise about any milestone."
+            )
+        ),
+        LegalSection(
+            "7. App lock, PIN and recovery",
             listOf(
                 "You may set a 4-digit PIN and a security question. You are responsible for keeping them safe and for choosing an answer others cannot guess.",
                 "We cannot recover your PIN or answer, because we never hold them. If you forget both, the only way back in is to clear Soapy's data or reinstall, which erases your blocklist."
             )
         ),
         LegalSection(
-            "7. Uninstall protection and the uninstall question",
+            "8. Uninstall protection and the uninstall question",
             listOf(
                 "With Uninstall protection on, Android requires you to deactivate Soapy before uninstalling it. Soapy also asks why you are leaving. This is meant to give you a pause, not to trap you.",
                 "• You can always uninstall Soapy. Deactivate it in Android settings, then remove it.",
@@ -204,7 +217,7 @@ object LegalContent {
             )
         ),
         LegalSection(
-            "8. Acceptable use",
+            "9. Acceptable use",
             listOf(
                 "You agree not to:",
                 "• install or run Soapy on another person's device without that person's knowledge and consent, or use it to monitor or control someone;",
@@ -214,79 +227,79 @@ object LegalContent {
             )
         ),
         LegalSection(
-            "9. Messages in the app",
+            "10. Messages in the app",
             listOf(
                 "Soapy shows short messages when a block happens. Some are blunt, some are encouraging, and some refer to faith. They are written to motivate, in English and Pidgin. They are not advice for your personal situation, and you may find some of them uncomfortable."
             )
         ),
         LegalSection(
-            "10. Other apps and third-party links",
+            "11. Other apps and third-party links",
             listOf(
                 "Soapy links to other apps by the same Developer (Discovr, Chatify and Resellr) on APKPure. APKPure and those apps are separate services with their own terms and privacy policies. We are not responsible for APKPure or for anything you download from it. Install apps only from sources you trust, and at your own risk."
             )
         ),
         LegalSection(
-            "11. Availability and compatibility",
+            "12. Availability and compatibility",
             listOf(
                 "Soapy may be installed outside an app store. It depends on features of Android that vary by version and phone brand, and some phones switch off background services to save battery. We do not guarantee that Soapy will work on every device, in every browser, or without interruption. Browsers and Android can change and affect how detection works."
             )
         ),
         LegalSection(
-            "12. Updates and changes",
+            "13. Updates and changes",
             listOf(
                 "We may update, change or stop Soapy, or any feature in it, at any time. Updates may be needed for Soapy to keep working."
             )
         ),
         LegalSection(
-            "13. Ownership",
+            "14. Ownership",
             listOf(
                 "Soapy, its name, icon, design, text and code belong to the Developer. We give you a personal, non-exclusive, non-transferable, revocable licence to install and use Soapy on your own devices under these Terms. All other rights are reserved."
             )
         ),
         LegalSection(
-            "14. No warranty",
+            "15. No warranty",
             listOf(
                 "Soapy is provided \"as is\" and \"as available\", without warranties of any kind, whether express or implied, including fitness for a particular purpose, accuracy, reliability or uninterrupted operation. To the extent the law allows, we do not promise that Soapy will be error-free or that it will achieve any result for you."
             )
         ),
         LegalSection(
-            "15. Limit of liability",
+            "16. Limit of liability",
             listOf(
                 "To the fullest extent allowed by law, the Developer is not liable for any indirect, incidental, special or consequential loss, or for loss of data, arising from your use of Soapy or inability to use it, including loss of your blocklist, being locked out after losing your PIN and answer, or content that Soapy fails to block. Where liability cannot be excluded, it is limited to the amount you paid for Soapy, which is zero if you did not pay. Nothing in these Terms limits any right you have under law that cannot be waived."
             )
         ),
         LegalSection(
-            "16. Ending these Terms",
+            "17. Ending these Terms",
             listOf(
                 "You can stop using Soapy at any time by uninstalling it. We may suspend or end your right to use Soapy if you break these Terms. Sections that by their nature should continue (ownership, no warranty, limit of liability, governing law) continue after the Terms end."
             )
         ),
         LegalSection(
-            "17. Privacy",
+            "18. Privacy",
             listOf(
                 "How Soapy treats your information is explained in our Privacy Policy, available under Settings > Legal."
             )
         ),
         LegalSection(
-            "18. Changes to these Terms",
+            "19. Changes to these Terms",
             listOf(
                 "We may change these Terms. The date at the top shows the latest version. If a change is significant, we will tell you in the app. Using Soapy after a change means you accept the updated Terms."
             )
         ),
         LegalSection(
-            "19. Governing law and disputes",
+            "20. Governing law and disputes",
             listOf(
                 "These Terms are governed by the laws of the Federal Republic of Nigeria. We encourage you to contact us first so we can try to settle any concern in good faith. If we cannot, the courts of Nigeria have jurisdiction, unless the law where you live gives you the right to go to your local courts."
             )
         ),
         LegalSection(
-            "20. General",
+            "21. General",
             listOf(
                 "If any part of these Terms is found unenforceable, the rest still applies. Our failure to enforce a right is not a waiver of it. These Terms and the Privacy Policy are the whole agreement between you and us about Soapy."
             )
         ),
         LegalSection(
-            "21. Contact",
+            "22. Contact",
             listOf(
                 "Questions about these Terms? Contact Peter Wisdom K. at [add contact email]."
             )
